@@ -18,25 +18,28 @@ target_avg = st.number_input(
 )
 
 if at_bats > 0:
-  # 現在の打率計算
-  batting_avg = hits / at_bats
-  st.write(f"### 現在の打率: {batting_avg:.3f}")
+    # 現在の打率計算
+    batting_avg = hits / at_bats
+    st.write(f"### 現在の打率: {batting_avg:.3f}")
 
-  # 【追加】目標達成に必要な安打数の逆算ロジック
-  required_hits = math.ceil(target_avg * at_bats)
+    # 打率に応じた評価コメント
+    if batting_avg >= 0.300:
+        st.write("🎉 素晴らしい！3割打者（クリーンナップ級）です！")
+    elif batting_avg >= 0.250:
+        st.write("👍 ナイスバッティング！レギュラー級の成績です！")
+    else:
+        st.write("💪 もっと練習してレギュラーを奪い返そう！")
 
-  if batting_avg >= target_avg:
-    st.success("🎉 すでに目標の打率を達成しています！お見事です！")
-  else:
-    needed = required_hits - hits
-    st.info(
-        f"🎯 目標の打率 ({target_avg:.3f}) まであと **{needed} 本**"
-        " のヒットが必要です！"
-    )
+    # 【追加】目標達成に必要な安打数の逆算ロジック
+    required_hits = math.ceil(target_avg * at_bats)
+
+    if batting_avg >= target_avg:
+        st.success("🎉 すでに目標の打率を達成しています！お見事です！")
+    else:
+        needed = required_hits - hits
+        st.info(
+            f"🎯 目標の打率 ({target_avg:.3f}) まであと **{needed} 本**"
+            " のヒットが必要です！"
+        )
 else:
-  st.warning("打数を1以上にしてください。")
-            st.write("🎉 素晴らしい！3割打者（クリーンナップ級）です！")
-        elif avg >= 0.250:
-            st.write("👍 ナイスバッティング！レギュラー級の成績です！")
-        else:
-            st.write("💪 もっと練習してレギュラーを奪い返そう！")
+    st.warning("打数を1以上にしてください。")
